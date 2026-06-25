@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tablero · Área UX</title>
+<style>
+  :root {
+    --violet: #7F77DD; --violet-light: #EEEDFE; --violet-dark: #534AB7;
+    --teal: #1D9E75; --teal-light: #E1F5EE;
+    --amber: #EF9F27; --amber-light: #FAEEDA;
+    --coral: #993C1D; --coral-light: #FAECE7;
+    --blue: #185FA5; --blue-light: #E6F1FB;
+    --green: #3B6D11; --green-light: #EAF3DE;
+    --gray: #5F5E5A; --gray-light: #F1EFE8;
+    --border: #E2E0D8;
+    --bg: #FAF9F6;
+    --card-bg: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system,"Segoe UI",Roboto,Arial,sans-serif; background: var(--bg); color: #2C2C2A; padding: 2rem; font-size: 13px; }
+
+  /* HEADER */
+  .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  h1 { font-size: 20px; font-weight: 600; }
+  .subtitle { font-size: 12px; color: var(--gray); margin-top: 3px; }
+  .badge-act { font-size: 11px; background: var(--teal-light); color: var(--teal); padding: 3px 10px; border-radius: 20px; }
+
+  /* CONFIG */
+  .config-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+  .config-box label { font-size: 12px; color: var(--gray); display: block; margin-bottom: 6px; }
+  .config-row { display: flex; gap: 8px; }
+  .config-box input { flex: 1; padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; }
+  .config-box button { background: var(--violet); color: white; border: none; padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .config-box button:hover { background: var(--violet-dark); }
+  .status { font-size: 11px; margin-top: 6px; }
+  .status.ok { color: var(--teal); } .status.err { color: var(--coral); }
+
+  /* RESUMEN */
+  .summary-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .summary-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+  .summary-card .num { font-size: 24px; font-weight: 600; }
+  .summary-card .lbl { font-size: 11px; color: var(--gray); margin-top: 3px; }
+
+  /* SECTION TITLES */
+  .section-title { font-size: 13px; font-weight: 600; color: var(--violet-dark); text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 1rem; border-bottom: 1.5px solid var(--violet-light); padding-bottom: 6px; }
+
+  /* KANBAN */
+  .board { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+  .col { background: #F4F3EE; border-radius: 10px; padding: 10px; min-height: 80px; }
+  .col-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; display: flex; justify-content: space-between; padding: 0 2px; }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 7px; padding: 8px 10px; margin-bottom: 7px; }
+  .card .tag { font-size: 10px; background: var(--gray-light); color: var(--gray); padding: 1px 6px; border-radius: 10px; margin-bottom: 5px; display: inline-block; }
+  .card .tarea-text { font-weight: 500; font-size: 12px; margin-bottom: 4px; line-height: 1.3; }
+  .card .meta { display: flex; justify-content: space-between; align-items: center; }
+  .card .resp { font-size: 11px; color: var(--gray); }
+  .badge-p { font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 600; }
+  .p-Alta { background: var(--coral-light); color: var(--coral); }
+  .p-Media { background: var(--amber-light); color: #854F0B; }
+  .p-Baja { background: var(--gray-light); color: var(--gray); }
+  .empty { font-size: 11px; color: #B4B2A9; padding: 6px 2px; }
+
+  /* SEGUIMIENTO */
+  .seg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .seg-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+  .seg-card.full { grid-column: 1 / -1; }
+  .seg-card h3 { font-size: 12px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+  .seg-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 7px 0; border-bottom: 0.5px solid var(--border); gap: 8px; }
+  .seg-row:last-child { border-bottom: none; }
+  .seg-row .info { flex: 1; }
+  .seg-row .id-tag { font-size: 10px; color: var(--gray); margin-bottom: 2px; }
+  .seg-row .tarea-seg { font-size: 12px; font-weight: 500; line-height: 1.3; }
+  .seg-row .proy-seg { font-size: 11px; color: var(--gray); margin-top: 2px; }
+  .seg-row .right { text-align: right; flex-shrink: 0; }
+  .seg-row .fecha-seg { font-size: 11px; color: var(--gray); }
+  .badge-est { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; white-space: nowrap; }
+  .est-bloqueada { background: var(--coral-light); color: var(--coral); }
+  .est-en-curso { background: var(--blue-light); color: var(--blue); }
+  .est-vence-hoy { background: var(--coral-light); color: var(--coral); }
+  .est-vence-pronto { background: var(--amber-light); color: #854F0B; }
+
+  /* POR PERSONA */
+  .persona-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .persona-card { background: #F4F3EE; border-radius: 8px; padding: 10px 12px; }
+  .persona-nombre { font-size: 12px; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; }
+  .persona-nombre .count { font-size: 11px; font-weight: 400; color: var(--gray); }
+  .persona-tarea { font-size: 11px; padding: 4px 0; border-bottom: 0.5px solid var(--border); display: flex; justify-content: space-between; gap: 6px; }
+  .persona-tarea:last-child { border-bottom: none; }
+  .persona-tarea .pt-text { flex: 1; color: #2C2C2A; line-height: 1.3; }
+  .persona-tarea .pt-est { font-size: 10px; color: var(--gray); white-space: nowrap; }
+
+  .no-data { font-size: 12px; color: #B4B2A9; padding: 8px 0; }
+
+  @media (max-width: 900px) {
+    .board, .summary-grid, .seg-grid, .persona-grid { grid-template-columns: 1fr 1fr; }
+    .seg-card.full { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Tablero · Área UX</h1>
+    <div class="subtitle">Subsecretaría de Promoción Humana · Ministerio de Capital Humano</div>
+  </div>
+  <div id="badge-act" class="badge-act" style="display:none"></div>
+</div>
+
+<div class="config-box">
+  <label>Link de datos (generado por Apps Script → función <code>exportarDatosParaTablero</code>)</label>
+  <div class="config-row">
+    <input type="text" id="link-json" placeholder="https://drive.google.com/uc?export=download&id=..." />
+    <button onclick="cargarDatos()">Actualizar tablero</button>
+  </div>
+  <div class="status" id="status-msg"></div>
+</div>
+
+<div class="summary-grid" id="summary-grid"></div>
+
+<div class="section-title">Estado general de tareas</div>
+<div class="board" id="board"></div>
+
+<div class="section-title">Seguimiento semanal</div>
+<div class="seg-grid" id="seg-grid"></div>
+
+<div class="section-title">Tareas por persona</div>
+<div class="persona-grid" id="persona-grid"></div>
+
+<script>
+const ESTADOS = ["Pendiente","En curso","En revisión","Bloqueada","Completada"];
+const COLORES = {
+  "Pendiente": "#5F5E5A",
+  "En curso": "#185FA5",
+  "En revisión": "#854F0B",
+  "Bloqueada": "#993C1D",
+  "Completada": "#3B6D11"
+};
+
+function guardarLink(l) { try { localStorage.setItem("tablero_ux_link", l); } catch(e) {} }
+function leerLink() { try { return localStorage.getItem("tablero_ux_link") || ""; } catch(e) { return ""; } }
+
+function cargarDatos() {
+  const link = document.getElementById("link-json").value.trim();
+  const st = document.getElementById("status-msg");
+  if (!link) { st.textContent = "Pegá primero el link de datos."; st.className = "status err"; return; }
+  guardarLink(link);
+  st.textContent = "Cargando..."; st.className = "status";
+  fetch("https://script.google.com/macros/s/AKfycbz-t6zcAtr7Nv-JpdT65Z-Sotzd6M7lSCbB1p9KEgK7OVNAQzfqDJLW5lufIIZtV_HkEQ/exec")
+    .then(r => { if (!r.ok) throw new Error("No se pudo acceder al archivo."); return r.json(); })
+    .then(data => { st.textContent = "Tablero actualizado."; st.className = "status ok"; renderizar(data); })
+    .catch(err => { st.textContent = "Error: " + err.message; st.className = "status err"; });
+}
+
+function parsefecha(str) {
+  if (!str) return null;
+  const p = str.split("/");
+  if (p.length !== 3) return null;
+  return new Date(parseInt(p[2]), parseInt(p[1])-1, parseInt(p[0]));
+}
+
+function diasHasta(str) {
+  const f = parseecha(str);
+  if (!f) return null;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  return Math.ceil((f - hoy) / 86400000);
+}
+
+function parseecha(str) {
+  if (!str) return null;
+  const p = str.split("/");
+  if (p.length !== 3) return null;
+  return new Date(parseInt(p[2]), parseInt(p[1])-1, parseInt(p[0]));
+}
+
+function esc(str) {
+  const d = document.createElement("div"); d.textContent = str; return d.innerHTML;
+}
+
+function renderizar(data) {
+  const tareas = data.tareas || [];
+
+  // Badge actualización
+  const badge = document.getElementById("badge-act");
+  badge.textContent = "Actualizado: " + (data.actualizadoTexto || "—");
+  badge.style.display = "inline-block";
+
+  // ── RESUMEN ──
+  const conteos = {}; ESTADOS.forEach(e => conteos[e] = 0);
+  tareas.forEach(t => { if (conteos[t.estado] !== undefined) conteos[t.estado]++; });
+  document.getElementById("summary-grid").innerHTML = ESTADOS.map(e => `
+    <div class="summary-card">
+      <div class="num" style="color:${COLORES[e]}">${conteos[e]}</div>
+      <div class="lbl">${e}</div>
+    </div>`).join("");
+
+  // ── KANBAN ──
+  document.getElementById("board").innerHTML = ESTADOS.map(estado => {
+    const ts = tareas.filter(t => t.estado === estado);
+    return `<div class="col">
+      <div class="col-title" style="color:${COLORES[estado]}"><span>${estado}</span><span>${ts.length}</span></div>
+      ${ts.length ? ts.map(t => `
+        <div class="card">
+          <span class="tag">${esc(t.proyecto)}</span>
+          <div class="tarea-text">${esc(t.id)} · ${esc(t.tarea)}</div>
+          <div class="meta">
+            <span class="resp">${esc(t.responsable)}</span>
+            ${t.prioridad ? `<span class="badge-p p-${esc(t.prioridad)}">${esc(t.prioridad)}</span>` : ""}
+          </div>
+        </div>`).join("") : `<div class="empty">Sin tareas</div>`}
+    </div>`;
+  }).join("");
+
+  // ── SEGUIMIENTO ──
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const lunes = new Date(hoy); lunes.setDate(hoy.getDate() - ((hoy.getDay()+6)%7));
+  const jueves = new Date(lunes); jueves.setDate(lunes.getDate() + 3);
+
+  const activas = tareas.filter(t => t.estado === "En curso" || t.estado === "Bloqueada")
+    .sort((a,b) => (a.estado === "Bloqueada" ? -1 : 1));
+
+  const vencenSemana = tareas
+    .filter(t => t.estado !== "Completada" && t.fecha)
+    .map(t => ({ ...t, dias: diasHasta(t.fecha) }))
+    .filter(t => t.dias !== null && t.dias >= 0 && t.dias <= 7)
+    .sort((a,b) => a.dias - b.dias);
+
+  const segHTML = `
+    <div class="seg-card">
+      <h3><span class="dot" style="background:#185FA5"></span> En curso y bloqueadas</h3>
+      ${activas.length ? activas.map(t => `
+        <div class="seg-row">
+          <div class="info">
+            <div class="id-tag">${esc(t.id)} · ${esc(t.proyecto)}</div>
+            <div class="tarea-seg">${esc(t.tarea)}</div>
+            <div class="proy-seg">${esc(t.responsable)}</div>
+          </div>
+          <div class="right">
+            <span class="badge-est est-${t.estado === 'Bloqueada' ? 'bloqueada' : 'en-curso'}">${esc(t.estado)}</span>
+            ${t.fecha ? `<div class="fecha-seg" style="margin-top:4px">${esc(t.fecha)}</div>` : ""}
+          </div>
+        </div>`).join("") : `<div class="no-data">Sin tareas activas</div>`}
+    </div>
+    <div class="seg-card">
+      <h3><span class="dot" style="background:#EF9F27"></span> Vencen esta semana</h3>
+      ${vencenSemana.length ? vencenSemana.map(t => `
+        <div class="seg-row">
+          <div class="info">
+            <div class="id-tag">${esc(t.id)} · ${esc(t.proyecto)}</div>
+            <div class="tarea-seg">${esc(t.tarea)}</div>
+            <div class="proy-seg">${esc(t.responsable)}</div>
+          </div>
+          <div class="right">
+            <span class="badge-est ${t.dias === 0 ? 'est-vence-hoy' : 'est-vence-pronto'}">${t.dias === 0 ? 'Hoy' : 'En ' + t.dias + ' d'}</span>
+            <div class="fecha-seg" style="margin-top:4px">${esc(t.fecha)}</div>
+          </div>
+        </div>`).join("") : `<div class="no-data">Sin vencimientos esta semana</div>`}
+    </div>`;
+  document.getElementById("seg-grid").innerHTML = segHTML;
+
+  // ── POR PERSONA ──
+  const porPersona = {};
+  tareas.forEach(t => {
+    if (t.estado === "Completada") return;
+    const nombres = t.responsable.split(",").map(n => n.trim()).filter(Boolean);
+    nombres.forEach(nombre => {
+      if (!porPersona[nombre]) porPersona[nombre] = [];
+      porPersona[nombre].push(t);
+    });
+  });
+
+  const personas = Object.entries(porPersona).sort((a,b) => b[1].length - a[1].length);
+  document.getElementById("persona-grid").innerHTML = personas.length ? personas.map(([nombre, ts]) => `
+    <div class="persona-card">
+      <div class="persona-nombre">
+        <span>${esc(nombre)}</span>
+        <span class="count">${ts.length} tarea${ts.length !== 1 ? 's' : ''}</span>
+      </div>
+      ${ts.map(t => `
+        <div class="persona-tarea">
+          <span class="pt-text">${esc(t.id)} · ${esc(t.tarea)}</span>
+          <span class="pt-est" style="color:${COLORES[t.estado]}">${esc(t.estado)}</span>
+        </div>`).join("")}
+    </div>`).join("") : `<div class="no-data">Sin datos</div>`;
+}
+
+window.onload = function() {
+  const l = leerLink();
+  if (l) { document.getElementById("link-json").value = l; cargarDatos(); }
+};
+</script>
+</body>
+</html>
