@@ -4,130 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tablero · Área UX</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;font-size:14px;line-height:1.5;min-height:100vh}
+:root {
+  --bg: #FFFFFF;
+  --surface: #F2F2F0;
+  --surface-2: #E8E8E5;
+  --border: #E0E0DC;
+  --border-mid: #CACAC5;
+  --text-1: #111110;
+  --text-2: #5A5A55;
+  --text-3: #9A9A94;
+  --lime: #5C8A00;
+  --lime-bg: #F0F7E0;
+  --coral: #D94A2A;
+  --coral-bg: #FDF0EC;
+  --sky: #1A6FCC;
+  --sky-bg: #EBF3FF;
+  --amber: #B86B00;
+  --amber-bg: #FFF5E0;
+  --green: #1A8A4A;
+  --green-bg: #E8F7EE;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text-1); font-size: 13px; line-height: 1.5; min-height: 100vh; }
 
 /* TOPBAR */
-.topbar{padding:1.5rem 2rem 0;border-bottom:1px solid #1a1a1a;background:#fff;position:sticky;top:0;z-index:10}
-.page-title{font-size:26px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
-.page-sub{font-size:13px;color:#6b6b6b;margin-bottom:1rem}
-.tabs{display:flex;gap:0}
-.tab{padding:10px 20px;font-size:13px;font-weight:500;color:#6b6b6b;border-bottom:2px solid transparent;cursor:pointer;display:flex;align-items:center;gap:7px;transition:all 0.12s;user-select:none}
-.tab.active{color:#1a1a1a;border-bottom:2px solid #1a1a1a}
-.tab:hover:not(.active){color:#1a1a1a}
+.topbar { display: flex; align-items: center; gap: 10px; padding: 0 1.5rem; height: 48px; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 20; }
+.wordmark { font-size: 14px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-1); }
+.wordmark em { font-style: normal; color: var(--lime); }
+.topbar-divider { width: 1px; height: 16px; background: var(--border-mid); }
+.topbar-sub { font-size: 11px; color: var(--text-3); }
+.topbar-right { margin-left: auto; }
+.topbar-badge { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--lime); background: var(--lime-bg); border: 1px solid #C8E090; border-radius: 4px; padding: 2px 8px; display: flex; align-items: center; gap: 5px; }
+
+/* SUBHEADER */
+.subheader { padding: 1.25rem 1.5rem 0; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 48px; z-index: 19; }
+.page-title { font-size: 22px; font-weight: 300; letter-spacing: -0.03em; margin-bottom: 2px; }
+.page-title strong { font-weight: 600; }
+.page-sub { font-size: 12px; color: var(--text-3); margin-bottom: 14px; }
+.tabs { display: flex; }
+.tab { padding: 9px 16px; font-size: 12px; font-weight: 500; color: var(--text-3); border-bottom: 2px solid transparent; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.1s; user-select: none; }
+.tab i { font-size: 11px; }
+.tab.active { color: var(--text-1); border-bottom: 2px solid var(--text-1); }
+.tab:hover:not(.active) { color: var(--text-2); }
 
 /* CONTENT */
-.content{padding:1.75rem 2rem;display:none}
-.content.active{display:block}
+.content { padding: 1.5rem; display: none; }
+.content.active { display: block; }
 
-/* SUMMARY CARDS */
-.summary-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:2rem}
-.scard{background:#fff;border:1px solid #1a1a1a;border-radius:6px;padding:14px 16px}
-.scard-num{font-size:28px;font-weight:600}
-.scard-lbl{font-size:12px;color:#6b6b6b;margin-top:3px}
+/* SUMMARY */
+.summary-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-bottom: 1.5rem; }
+.scard { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; border-top: 2px solid var(--border-mid); }
+.scard-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.scard-num { font-family: 'DM Mono', monospace; font-size: 30px; font-weight: 400; letter-spacing: -0.04em; }
+.scard-icon { font-size: 14px; opacity: 0.5; margin-top: 6px; }
+.scard-lbl { font-size: 11px; color: var(--text-3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
 
 /* KANBAN */
-.kanban{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.kcol{background:#f7f7f5;border:1px solid #e5e5e5;border-radius:6px;padding:10px}
-.kcol-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;padding:0 2px}
-.kcol-count{background:#fff;border:1px solid #e5e5e5;border-radius:4px;font-size:11px;padding:1px 6px;color:#6b6b6b}
-.kcard{background:#fff;border:1px solid #e5e5e5;border-radius:6px;padding:10px 12px;margin-bottom:7px;cursor:pointer;transition:border-color 0.12s}
-.kcard:hover{border-color:#1a1a1a}
-.kcard.bloq{border-left:3px solid #1a1a1a;border-radius:0 6px 6px 0}
-.kcard.done{opacity:0.5}
-.kcard-proj{font-size:11px;color:#6b6b6b;margin-bottom:4px;font-weight:500}
-.kcard-title{font-size:13px;font-weight:500;color:#1a1a1a;line-height:1.35;margin-bottom:8px}
-.kcard-footer{display:flex;justify-content:space-between;align-items:center}
-.kcard-resp{font-size:12px;color:#6b6b6b}
-.kcard-more{font-size:11px;color:#aaa;display:flex;align-items:center;gap:4px;margin-top:8px;padding-top:7px;border-top:1px solid #f0f0f0}
-.empty-col{font-size:12px;color:#aaa;padding:4px 2px}
+.kanban { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
+.kcol { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px; }
+.kcol-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 2px; }
+.kcol-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-2); display: flex; align-items: center; gap: 5px; }
+.kcol-title i { font-size: 10px; }
+.kcol-pill { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 1px 7px; }
+
+.kcard { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 11px; margin-bottom: 6px; cursor: pointer; transition: border-color 0.1s, box-shadow 0.1s; }
+.kcard:hover { border-color: var(--border-mid); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.kcard.bloq { border-left: 2px solid var(--coral); border-radius: 0 6px 6px 0; }
+.kcard.done { opacity: 0.4; }
+.kcard-id { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-3); margin-bottom: 4px; }
+.kcard-title { font-size: 12px; font-weight: 500; line-height: 1.35; margin-bottom: 8px; color: var(--text-1); }
+.kcard-footer { display: flex; justify-content: space-between; align-items: center; }
+.kcard-resp { font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+.kcard-resp i { font-size: 10px; }
+.kcard-meta { display: flex; align-items: center; gap: 6px; }
+.kcard-date { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; display: flex; align-items: center; gap: 3px; }
+.kcard-more { font-size: 10px; color: var(--text-3); margin-top: 7px; padding-top: 6px; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; display: flex; align-items: center; gap: 4px; }
+.empty-col { font-size: 11px; color: var(--text-3); padding: 4px 2px; font-family: 'DM Mono', monospace; }
 
 /* BADGES */
-.badge{font-size:11px;padding:2px 7px;border-radius:4px;font-weight:500;border:1px solid;white-space:nowrap}
-.b-Alta{background:#fff0ee;color:#9b2c1a;border-color:#f5bdb5}
-.b-Media{background:#fff8ee;color:#8a4e0a;border-color:#f5dab5}
-.b-Baja{background:#f5f5f5;color:#5a5a5a;border-color:#d5d5d5}
-.est-Pendiente{background:#f5f5f5;color:#5a5a5a;border-color:#d5d5d5}
-.est-En.curso{background:#eef5ff;color:#1a4fa0;border-color:#b5cfee}
-.est-En.revisión{background:#fff8ee;color:#8a4e0a;border-color:#f5dab5}
-.est-Bloqueada{background:#fff0ee;color:#9b2c1a;border-color:#f5bdb5}
-.est-Completada{background:#f0f9ee;color:#2a6a1a;border-color:#b5ddb5}
+.badge { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; }
+.b-Alta { background: var(--coral-bg); color: var(--coral); }
+.b-Media { background: var(--amber-bg); color: var(--amber); }
+.b-Baja { background: var(--surface-2); color: var(--text-3); }
+
+/* STATUS BADGES */
+.est { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; display: inline-flex; align-items: center; gap: 3px; }
+.est-Pendiente { background: var(--surface-2); color: var(--text-2); }
+.est-En-curso { background: var(--sky-bg); color: var(--sky); }
+.est-En-revision { background: var(--amber-bg); color: var(--amber); }
+.est-Bloqueada { background: var(--coral-bg); color: var(--coral); }
+.est-Completada { background: var(--lime-bg); color: var(--lime); }
+
+/* VER MAS */
+.ver-mas-btn { margin-top: 6px; padding: 8px; background: var(--bg); border: 1px dashed var(--border-mid); border-radius: 6px; font-size: 11px; color: var(--lime); font-weight: 600; text-align: center; cursor: pointer; font-family: 'DM Mono', monospace; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.1s; }
+.ver-mas-btn:hover { background: var(--lime-bg); border-color: var(--lime); }
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:100;display:none;align-items:center;justify-content:center;padding:2rem}
-.modal-overlay.open{display:flex}
-.modal{background:#fff;border:1px solid #1a1a1a;border-radius:8px;padding:1.75rem;width:100%;max-width:480px;max-height:85vh;overflow-y:auto}
-.modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px}
-.modal-proj{font-size:12px;color:#6b6b6b;margin-bottom:4px;font-weight:500}
-.modal-title{font-size:17px;font-weight:600;color:#1a1a1a;line-height:1.3}
-.modal-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.modal-close{font-size:13px;color:#6b6b6b;cursor:pointer;padding:4px 9px;border:1px solid #e5e5e5;border-radius:4px;background:#fff;font-family:'Inter',sans-serif}
-.modal-close:hover{border-color:#1a1a1a;color:#1a1a1a}
-.modal-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.meta-item{background:#f7f7f5;border-radius:6px;padding:10px 12px;border:1px solid #e5e5e5}
-.meta-label{font-size:11px;color:#6b6b6b;margin-bottom:3px;font-weight:500;text-transform:uppercase;letter-spacing:0.04em}
-.meta-value{font-size:13px;font-weight:500;color:#1a1a1a}
-.modal-section{margin-bottom:14px}
-.modal-section-label{font-size:11px;color:#6b6b6b;font-weight:500;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px}
-.modal-link{font-size:13px;color:#1a1a1a;display:flex;align-items:center;gap:5px;text-decoration:underline;text-underline-offset:3px;word-break:break-all}
-.modal-notes{font-size:13px;color:#4a4a4a;background:#f7f7f5;border:1px solid #e5e5e5;border-radius:6px;padding:12px;line-height:1.6}
-.modal-empty{font-size:13px;color:#aaa}
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 100; display: none; align-items: center; justify-content: center; padding: 2rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--bg); border: 1px solid var(--border-mid); border-radius: 10px; padding: 1.5rem; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+.modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; gap: 12px; }
+.modal-id { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+.modal-title { font-size: 17px; font-weight: 500; line-height: 1.3; margin-bottom: 16px; letter-spacing: -0.02em; }
+.modal-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.modal-close { font-size: 11px; color: var(--text-2); border: 1px solid var(--border); border-radius: 4px; padding: 5px 10px; background: var(--surface); cursor: pointer; font-family: 'DM Mono', monospace; display: flex; align-items: center; gap: 5px; transition: all 0.1s; }
+.modal-close:hover { border-color: var(--border-mid); color: var(--text-1); }
+.modal-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
+.meta-item { background: var(--surface); border-radius: 6px; padding: 10px 12px; border: 1px solid var(--border); }
+.meta-label { font-size: 10px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; font-family: 'DM Mono', monospace; display: flex; align-items: center; gap: 4px; }
+.meta-value { font-size: 13px; font-weight: 500; color: var(--text-1); }
+.modal-sec { margin-bottom: 12px; }
+.modal-sec-label { font-size: 10px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; font-family: 'DM Mono', monospace; display: flex; align-items: center; gap: 4px; }
+.modal-link { font-size: 13px; color: var(--sky); font-weight: 500; display: flex; align-items: center; gap: 5px; word-break: break-all; }
+.modal-notes { font-size: 13px; color: var(--text-2); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px; line-height: 1.6; }
+.modal-empty { font-size: 13px; color: var(--text-3); font-style: italic; }
 
 /* POR PROYECTO */
-.proy-section{margin-bottom:2rem}
-.proy-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #1a1a1a}
-.proy-name{font-size:16px;font-weight:600;color:#1a1a1a}
-.proy-count{font-size:12px;color:#6b6b6b;background:#f5f5f5;border:1px solid #e5e5e5;border-radius:4px;padding:2px 8px}
-.proy-tipo{font-size:11px;color:#6b6b6b;border:1px solid #e5e5e5;border-radius:4px;padding:2px 8px}
-.proy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.proy-section { margin-bottom: 2rem; }
+.proy-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.proy-name { font-size: 15px; font-weight: 600; color: var(--text-1); }
+.proy-tipo { font-size: 11px; color: var(--text-3); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; font-family: 'DM Mono', monospace; }
+.proy-count { font-size: 11px; color: var(--text-3); background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2px 9px; font-family: 'DM Mono', monospace; margin-left: auto; }
+.proy-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
 
 /* SEGUIMIENTO */
-.seg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.seg-card{background:#fff;border:1px solid #1a1a1a;border-radius:6px;padding:1.25rem}
-.seg-card h3{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:12px;display:flex;align-items:center;gap:7px}
-.seg-row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid #f0f0f0;gap:8px}
-.seg-row:last-child{border-bottom:none}
-.seg-info{flex:1}
-.seg-id{font-size:11px;color:#6b6b6b;margin-bottom:2px;font-weight:500}
-.seg-tarea{font-size:13px;font-weight:500;color:#1a1a1a;line-height:1.3}
-.seg-resp{font-size:12px;color:#6b6b6b;margin-top:2px}
-.seg-right{text-align:right;flex-shrink:0}
-.seg-fecha{font-size:11px;color:#6b6b6b;margin-top:4px}
-.seg-dias-hoy{font-size:11px;padding:2px 7px;border-radius:4px;font-weight:500;border:1px solid;background:#fff0ee;color:#9b2c1a;border-color:#f5bdb5}
-.seg-dias-pronto{font-size:11px;padding:2px 7px;border-radius:4px;font-weight:500;border:1px solid;background:#fff8ee;color:#8a4e0a;border-color:#f5dab5}
-.no-data{font-size:13px;color:#aaa;padding:8px 0}
+.seg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.seg-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
+.seg-card-title { font-size: 12px; font-weight: 600; color: var(--text-1); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+.seg-card-title i { font-size: 11px; }
+.seg-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); gap: 8px; cursor: pointer; transition: opacity 0.1s; }
+.seg-row:hover { opacity: 0.7; }
+.seg-row:last-child { border-bottom: none; }
+.seg-info { flex: 1; }
+.seg-id { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; margin-bottom: 2px; }
+.seg-tarea { font-size: 12px; font-weight: 500; color: var(--text-1); line-height: 1.3; }
+.seg-resp { font-size: 11px; color: var(--text-3); margin-top: 2px; display: flex; align-items: center; gap: 3px; }
+.seg-right { text-align: right; flex-shrink: 0; }
+.seg-fecha { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; margin-top: 4px; }
+.dias-hoy { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; background: var(--coral-bg); color: var(--coral); }
+.dias-pronto { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; background: var(--amber-bg); color: var(--amber); }
+.no-data { font-size: 12px; color: var(--text-3); padding: 8px 0; font-style: italic; }
 
 /* POR PERSONA */
-.persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.persona-card{background:#fff;border:1px solid #1a1a1a;border-radius:6px;padding:14px 16px}
-.persona-name{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
-.persona-count{font-size:12px;color:#6b6b6b;margin-bottom:12px}
-.persona-task{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f0f0f0;gap:8px;cursor:pointer}
-.persona-task:last-child{border-bottom:none}
-.persona-task:hover .pt-title{text-decoration:underline}
-.pt-id{font-size:11px;color:#6b6b6b;margin-bottom:2px}
-.pt-title{font-size:13px;font-weight:500;color:#1a1a1a;line-height:1.3}
+.persona-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.persona-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+.persona-header { margin-bottom: 12px; }
+.persona-name { font-size: 14px; font-weight: 600; color: var(--text-1); display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.persona-name i { font-size: 12px; color: var(--text-3); }
+.persona-count { font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; }
+.persona-task { display: flex; justify-content: space-between; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border); gap: 8px; cursor: pointer; transition: opacity 0.1s; }
+.persona-task:hover { opacity: 0.7; }
+.persona-task:last-child { border-bottom: none; }
+.pt-id { font-size: 10px; color: var(--text-3); font-family: 'DM Mono', monospace; margin-bottom: 2px; }
+.pt-title { font-size: 12px; font-weight: 500; color: var(--text-1); line-height: 1.3; }
 
-/* SECTION HEADER */
-.sec-label{font-size:11px;font-weight:600;color:#6b6b6b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:1rem}
+/* ERROR */
+.error-box { background: var(--coral-bg); border: 1px solid #F5BDB5; color: var(--coral); border-radius: 6px; padding: 12px 16px; font-size: 13px; margin-bottom: 1rem; display: none; }
+.loading { font-size: 13px; color: var(--text-3); padding: 3rem 0; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-/* LOADING */
-.loading{font-size:14px;color:#6b6b6b;padding:3rem 0;text-align:center}
-.error-box{background:#fff0ee;border:1px solid #f5bdb5;color:#9b2c1a;border-radius:6px;padding:12px 16px;font-size:13px;margin-bottom:1rem;display:none}
+/* DIVIDER */
+.section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); margin-bottom: 1rem; display: flex; align-items: center; gap: 6px; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="page-title">Tablero · Área UX</div>
-  <div class="page-sub">Subsecretaría de Promoción Humana · Ministerio de Capital Humano · <span id="ultima-act">Cargando...</span></div>
+  <div class="wordmark">UX<em>·</em>ÁREA</div>
+  <div class="topbar-divider"></div>
+  <div class="topbar-sub">Ministerio de Capital Humano</div>
+  <div class="topbar-right">
+    <span class="topbar-badge"><i class="fa-solid fa-circle" style="font-size:6px"></i> <span id="badge-fecha">Cargando...</span></span>
+  </div>
+</div>
+
+<div class="subheader">
+  <div class="page-title">Tablero de <strong>seguimiento</strong></div>
+  <div class="page-sub">Dirección de Experiencia del Usuario · Subsecretaría de Promoción Humana</div>
   <div class="tabs">
-    <div class="tab active" onclick="cambiarTab(0)">Kanban</div>
-    <div class="tab" onclick="cambiarTab(1)">Por proyecto</div>
-    <div class="tab" onclick="cambiarTab(2)">Seguimiento semanal</div>
-    <div class="tab" onclick="cambiarTab(3)">Por persona</div>
+    <div class="tab active" onclick="cambiarTab(0)"><i class="fa-solid fa-table-columns"></i> Kanban</div>
+    <div class="tab" onclick="cambiarTab(1)"><i class="fa-solid fa-folder"></i> Por proyecto</div>
+    <div class="tab" onclick="cambiarTab(2)"><i class="fa-regular fa-calendar-week"></i> Seguimiento semanal</div>
+    <div class="tab" onclick="cambiarTab(3)"><i class="fa-solid fa-users"></i> Por persona</div>
   </div>
 </div>
 
@@ -135,23 +195,23 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;font-size:14px
 
 <!-- TAB 0: KANBAN -->
 <div class="content active" id="tab-0">
-  <div class="loading" id="loading-0">Cargando datos...</div>
-  <div id="kanban-content" style="display:none">
-    <div class="summary-row" id="summary-row"></div>
+  <div class="loading" id="loading-0"><i class="fa-solid fa-spinner fa-spin"></i> Cargando datos...</div>
+  <div id="kanban-wrap" style="display:none">
+    <div class="summary-row" id="summary-row-0"></div>
     <div class="kanban" id="kanban-board"></div>
   </div>
 </div>
 
 <!-- TAB 1: POR PROYECTO -->
 <div class="content" id="tab-1">
-  <div class="loading" id="loading-1">Cargando datos...</div>
-  <div id="proyecto-content" style="display:none"></div>
+  <div class="loading" id="loading-1"><i class="fa-solid fa-spinner fa-spin"></i> Cargando datos...</div>
+  <div id="proyecto-wrap" style="display:none"></div>
 </div>
 
 <!-- TAB 2: SEGUIMIENTO -->
 <div class="content" id="tab-2">
-  <div class="loading" id="loading-2">Cargando datos...</div>
-  <div id="seg-content" style="display:none">
+  <div class="loading" id="loading-2"><i class="fa-solid fa-spinner fa-spin"></i> Cargando datos...</div>
+  <div id="seg-wrap" style="display:none">
     <div class="summary-row" id="summary-row-2"></div>
     <div class="seg-grid" id="seg-grid"></div>
   </div>
@@ -159,8 +219,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;font-size:14px
 
 <!-- TAB 3: POR PERSONA -->
 <div class="content" id="tab-3">
-  <div class="loading" id="loading-3">Cargando datos...</div>
-  <div id="persona-content" style="display:none">
+  <div class="loading" id="loading-3"><i class="fa-solid fa-spinner fa-spin"></i> Cargando datos...</div>
+  <div id="persona-wrap" style="display:none">
     <div class="summary-row" id="summary-row-3"></div>
     <div class="persona-grid" id="persona-grid"></div>
   </div>
@@ -168,29 +228,29 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;font-size:14px
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
-  <div class="modal" id="modal-box">
+  <div class="modal">
     <div class="modal-header">
-      <div>
-        <div class="modal-proj" id="m-proj"></div>
+      <div style="flex:1">
+        <div class="modal-id" id="m-id"></div>
         <div class="modal-title" id="m-title"></div>
       </div>
       <div class="modal-right">
-        <span class="badge" id="m-estado"></span>
-        <button class="modal-close" onclick="cerrarModal()">✕ cerrar</button>
+        <span class="est" id="m-estado"></span>
+        <button class="modal-close" onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i> cerrar</button>
       </div>
     </div>
     <div class="modal-meta">
-      <div class="meta-item"><div class="meta-label">Responsable</div><div class="meta-value" id="m-resp"></div></div>
-      <div class="meta-item"><div class="meta-label">Fecha límite</div><div class="meta-value" id="m-fecha"></div></div>
-      <div class="meta-item"><div class="meta-label">Prioridad</div><div class="meta-value" id="m-prio"></div></div>
-      <div class="meta-item"><div class="meta-label">Tipo</div><div class="meta-value" id="m-tipo"></div></div>
+      <div class="meta-item"><div class="meta-label"><i class="fa-regular fa-user"></i> Responsable</div><div class="meta-value" id="m-resp"></div></div>
+      <div class="meta-item"><div class="meta-label"><i class="fa-regular fa-calendar"></i> Fecha límite</div><div class="meta-value" id="m-fecha"></div></div>
+      <div class="meta-item"><div class="meta-label"><i class="fa-solid fa-flag"></i> Prioridad</div><div class="meta-value" id="m-prio"></div></div>
+      <div class="meta-item"><div class="meta-label"><i class="fa-solid fa-folder"></i> Tipo</div><div class="meta-value" id="m-tipo"></div></div>
     </div>
-    <div class="modal-section" id="m-link-sec">
-      <div class="modal-section-label">Link</div>
+    <div class="modal-sec" id="m-link-sec">
+      <div class="modal-sec-label"><i class="fa-solid fa-link"></i> Link</div>
       <div class="modal-link" id="m-link"></div>
     </div>
-    <div class="modal-section" id="m-notes-sec">
-      <div class="modal-section-label">Notas</div>
+    <div class="modal-sec" id="m-notes-sec">
+      <div class="modal-sec-label"><i class="fa-regular fa-note-sticky"></i> Notas</div>
       <div class="modal-notes" id="m-notes"></div>
     </div>
   </div>
@@ -199,17 +259,20 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a;font-size:14px
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbz-t6zcAtr7Nv-JpdT65Z-Sotzd6M7lSCbB1p9KEgK7OVNAQzfqDJLW5lufIIZtV_HkEQ/exec";
 const ESTADOS = ["Pendiente","En curso","En revisión","Bloqueada","Completada"];
-const COLORES_EST = {
-  "Pendiente":"#5a5a5a","En curso":"#1a4fa0",
-  "En revisión":"#8a4e0a","Bloqueada":"#9b2c1a","Completada":"#2a6a1a"
-};
+const COLORES = { "Pendiente": "var(--text-2)", "En curso": "var(--sky)", "En revisión": "var(--amber)", "Bloqueada": "var(--coral)", "Completada": "var(--lime)" };
+const ICONOS_EST = { "Pendiente": "fa-regular fa-circle-dot", "En curso": "fa-solid fa-arrow-right", "En revisión": "fa-solid fa-magnifying-glass", "Bloqueada": "fa-solid fa-hand", "Completada": "fa-solid fa-check" };
+const ICONOS_TAB = ["fa-solid fa-table-columns","fa-solid fa-folder","fa-regular fa-calendar-week","fa-solid fa-users"];
+const COMPLETADAS_VISIBLES = 10;
+
 let TAREAS = [];
+let completadasExpandidas = false;
 
-function esc(s){const d=document.createElement("div");d.textContent=s||"";return d.innerHTML}
+function esc(s){ const d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }
 
-function estBadge(est){
-  const cls = "badge est-"+est.replace(/ /g,".");
-  return `<span class="${cls}">${esc(est)}</span>`;
+function estClass(e){ return "est-"+(e||"").replace(/ /g,"-").replace(/ó/g,"o").replace(/é/g,"e"); }
+
+function estBadge(e){
+  return `<span class="est ${estClass(e)}"><i class="${ICONOS_EST[e]||'fa-solid fa-circle'}"></i> ${esc(e)}</span>`;
 }
 
 function prioBadge(p){
@@ -217,37 +280,38 @@ function prioBadge(p){
 }
 
 function diasHasta(str){
-  if(!str)return null;
-  const p=str.split("/");
-  if(p.length!==3)return null;
-  const f=new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]));
-  const h=new Date();h.setHours(0,0,0,0);
+  if(!str) return null;
+  const p = str.split("/");
+  if(p.length!==3) return null;
+  const f = new Date(parseInt(p[2]), parseInt(p[1])-1, parseInt(p[0]));
+  const h = new Date(); h.setHours(0,0,0,0);
   return Math.ceil((f-h)/86400000);
 }
 
-// ── TABS ──────────────────────────────────────────────────────
 function cambiarTab(idx){
-  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("active",i===idx));
-  document.querySelectorAll(".content").forEach((c,i)=>c.classList.toggle("active",i===idx));
+  document.querySelectorAll(".tab").forEach((t,i) => t.classList.toggle("active", i===idx));
+  document.querySelectorAll(".content").forEach((c,i) => c.classList.toggle("active", i===idx));
 }
 
-// ── MODAL ─────────────────────────────────────────────────────
-function abrirModal(t){
-  document.getElementById("m-proj").textContent = t.proyecto+" · "+t.id;
+function abrirModal(id){
+  const t = TAREAS.find(x => x.id === id);
+  if(!t) return;
+  document.getElementById("m-id").innerHTML = `<i class="fa-solid fa-hashtag"></i> ${esc(t.proyecto)} · ${esc(t.id)} · ${esc(t.tipo)}`;
   document.getElementById("m-title").textContent = t.tarea;
-  document.getElementById("m-estado").className = "badge est-"+t.estado.replace(/ /g,".");
-  document.getElementById("m-estado").textContent = t.estado;
-  document.getElementById("m-resp").textContent = t.responsable||"Sin asignar";
-  document.getElementById("m-fecha").textContent = t.fecha||"Sin fecha";
-  document.getElementById("m-prio").textContent = t.prioridad||"—";
-  document.getElementById("m-tipo").textContent = t.tipo||"—";
+  const mEst = document.getElementById("m-estado");
+  mEst.className = "est " + estClass(t.estado);
+  mEst.innerHTML = `<i class="${ICONOS_EST[t.estado]||'fa-solid fa-circle'}"></i> ${esc(t.estado)}`;
+  document.getElementById("m-resp").textContent = t.responsable || "Sin asignar";
+  document.getElementById("m-fecha").textContent = t.fecha || "Sin fecha";
+  document.getElementById("m-prio").textContent = t.prioridad || "—";
+  document.getElementById("m-tipo").textContent = t.tipo || "—";
 
   const linkSec = document.getElementById("m-link-sec");
   const linkEl  = document.getElementById("m-link");
   if(t.links){
-    linkSec.style.display="block";
-    linkEl.innerHTML = `<a href="${esc(t.links)}" target="_blank" style="color:#1a1a1a;display:flex;align-items:center;gap:5px">↗ ${esc(t.links)}</a>`;
-  } else { linkSec.style.display="none"; }
+    linkSec.style.display = "block";
+    linkEl.innerHTML = `<a href="${esc(t.links)}" target="_blank" style="color:var(--sky);display:flex;align-items:center;gap:5px"><i class="fa-solid fa-arrow-up-right-from-square"></i>${esc(t.links)}</a>`;
+  } else { linkSec.style.display = "none"; }
 
   const notesSec = document.getElementById("m-notes-sec");
   const notesEl  = document.getElementById("m-notes");
@@ -258,142 +322,195 @@ function abrirModal(t){
 }
 
 function cerrarModal(e){
-  if(!e || e.target===document.getElementById("modal-overlay") || e.target.classList.contains("modal-close")){
+  if(!e || e.target===document.getElementById("modal-overlay") || e.target.closest(".modal-close")){
     document.getElementById("modal-overlay").classList.remove("open");
   }
 }
-document.addEventListener("keydown",e=>{if(e.key==="Escape")cerrarModal();});
+document.addEventListener("keydown", e => { if(e.key==="Escape") cerrarModal(); });
 
-// ── RENDER FUNCIONES ──────────────────────────────────────────
-function renderSummary(id, tareas){
-  const conteos={};ESTADOS.forEach(e=>conteos[e]=0);
-  tareas.forEach(t=>{if(conteos[t.estado]!==undefined)conteos[t.estado]++});
-  document.getElementById(id).innerHTML=ESTADOS.map(e=>`
-    <div class="scard">
-      <div class="scard-num" style="color:${COLORES_EST[e]}">${conteos[e]}</div>
+// ── RENDER SUMMARY ─────────────────────────────────────────────
+function renderSummary(elId, tareas){
+  const conteos = {}; ESTADOS.forEach(e => conteos[e]=0);
+  tareas.forEach(t => { if(conteos[t.estado]!==undefined) conteos[t.estado]++; });
+  document.getElementById(elId).innerHTML = ESTADOS.map(e => `
+    <div class="scard" style="border-top-color:${COLORES[e]}">
+      <div class="scard-top">
+        <div class="scard-num" style="color:${COLORES[e]}">${String(conteos[e]).padStart(2,"0")}</div>
+        <i class="${ICONOS_EST[e]} scard-icon" style="color:${COLORES[e]}"></i>
+      </div>
       <div class="scard-lbl">${e}</div>
     </div>`).join("");
 }
 
+// ── RENDER KANBAN ──────────────────────────────────────────────
 function renderKanban(tareas){
-  renderSummary("summary-row", tareas);
-  document.getElementById("kanban-board").innerHTML=ESTADOS.map(estado=>{
-    const ts=tareas.filter(t=>t.estado===estado);
-    const cards=ts.length ? ts.map(t=>`
-      <div class="kcard ${estado==="Bloqueada"?"bloq":""} ${estado==="Completada"?"done":""}"
-           onclick="abrirModal(TAREAS.find(x=>x.id==='${esc(t.id)}'))">
-        <div class="kcard-proj">${esc(t.proyecto)}</div>
-        <div class="kcard-title">${esc(t.id)} · ${esc(t.tarea)}</div>
-        <div class="kcard-footer">
-          <span class="kcard-resp">${esc(t.responsable)}</span>
-          ${prioBadge(t.prioridad)}
-        </div>
-        <div class="kcard-more">↓ ver notas y links</div>
-      </div>`).join("")
-    : `<div class="empty-col">Sin tareas</div>`;
+  renderSummary("summary-row-0", tareas);
+
+  document.getElementById("kanban-board").innerHTML = ESTADOS.map(estado => {
+    const ts = tareas.filter(t => t.estado === estado);
+    let cards;
+
+    if(estado === "Completada"){
+      const visibles = ts.slice(0, COMPLETADAS_VISIBLES);
+      const resto = ts.length - visibles.length;
+      cards = visibles.map(t => kCard(t)).join("") +
+        (resto > 0 ? `<div class="ver-mas-btn" id="ver-mas-btn" onclick="expandirCompletadas()"><i class="fa-solid fa-chevron-down"></i> ver todas (${resto} más)</div>` : "");
+    } else {
+      cards = ts.length ? ts.map(t => kCard(t)).join("") + (ts.length > 4 ? `<div class="empty-col">+ ${Math.max(0,ts.length-4)} más</div>` : "") : `<div class="empty-col">Sin tareas</div>`;
+      cards = ts.map(t => kCard(t)).join("") || `<div class="empty-col">Sin tareas</div>`;
+    }
+
     return `<div class="kcol">
-      <div class="kcol-title" style="color:${COLORES_EST[estado]}">
-        <span>${estado}</span><span class="kcol-count">${ts.length}</span>
+      <div class="kcol-header">
+        <span class="kcol-title" style="color:${COLORES[estado]}"><i class="${ICONOS_EST[estado]}"></i> ${estado}</span>
+        <span class="kcol-pill">${ts.length}</span>
       </div>${cards}</div>`;
   }).join("");
+
   document.getElementById("loading-0").style.display="none";
-  document.getElementById("kanban-content").style.display="block";
+  document.getElementById("kanban-wrap").style.display="block";
 }
 
+function kCard(t){
+  return `<div class="kcard ${t.estado==="Bloqueada"?"bloq":""} ${t.estado==="Completada"?"done":""}" onclick="abrirModal('${esc(t.id)}')">
+    <div class="kcard-id">${esc(t.proyecto)} · ${esc(t.id)}</div>
+    <div class="kcard-title">${esc(t.tarea)}</div>
+    <div class="kcard-footer">
+      <span class="kcard-resp"><i class="fa-regular fa-user"></i> ${esc(t.responsable)}</span>
+      <div class="kcard-meta">
+        ${t.fecha ? `<span class="kcard-date"><i class="fa-regular fa-calendar"></i> ${esc(t.fecha)}</span>` : ""}
+        ${prioBadge(t.prioridad)}
+      </div>
+    </div>
+    <div class="kcard-more"><i class="fa-solid fa-chevron-down"></i> ver notas y links</div>
+  </div>`;
+}
+
+function expandirCompletadas(){
+  const col = document.getElementById("kanban-board").querySelectorAll(".kcol")[4];
+  const btn = document.getElementById("ver-mas-btn");
+  if(!btn) return;
+  const completadas = TAREAS.filter(t => t.estado === "Completada");
+  const extras = completadas.slice(COMPLETADAS_VISIBLES);
+  extras.forEach(t => {
+    const div = document.createElement("div");
+    div.innerHTML = kCard(t);
+    btn.parentNode.insertBefore(div.firstChild, btn);
+  });
+  btn.remove();
+}
+
+// ── RENDER POR PROYECTO ────────────────────────────────────────
 function renderPorProyecto(tareas){
-  const porProy={};
-  tareas.forEach(t=>{
-    if(!porProy[t.proyecto])porProy[t.proyecto]={tipo:t.tipo,tareas:[]};
+  const porProy = {};
+  tareas.forEach(t => {
+    if(!porProy[t.proyecto]) porProy[t.proyecto] = { tipo: t.tipo, tareas: [] };
     porProy[t.proyecto].tareas.push(t);
   });
-  const html=Object.entries(porProy).map(([proy,data])=>{
-    const cards=data.tareas.map(t=>`
-      <div class="kcard" onclick="abrirModal(TAREAS.find(x=>x.id==='${esc(t.id)}'))">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          ${estBadge(t.estado)} ${prioBadge(t.prioridad)}
-        </div>
-        <div class="kcard-title">${esc(t.id)} · ${esc(t.tarea)}</div>
-        <div class="kcard-footer">
-          <span class="kcard-resp">${esc(t.responsable)}</span>
-          <span style="font-size:11px;color:#aaa">${esc(t.fecha||"")}</span>
-        </div>
-        <div class="kcard-more">↓ ver notas y links</div>
-      </div>`).join("");
-    return `<div class="proy-section">
+
+  document.getElementById("proyecto-wrap").innerHTML = Object.entries(porProy).map(([proy, data]) => `
+    <div class="proy-section">
       <div class="proy-header">
-        <span class="proy-name">${esc(proy)}</span>
-        <span class="proy-count">${data.tareas.length} tarea${data.tareas.length!==1?"s":""}</span>
+        <span class="proy-name"><i class="fa-solid fa-folder" style="font-size:13px;color:var(--text-3)"></i> ${esc(proy)}</span>
         <span class="proy-tipo">${esc(data.tipo)}</span>
+        <span class="proy-count">${data.tareas.length} tarea${data.tareas.length!==1?"s":""}</span>
       </div>
-      <div class="proy-grid">${cards}</div>
-    </div>`;
-  }).join("");
-  document.getElementById("proyecto-content").innerHTML=html;
+      <div class="proy-grid">
+        ${data.tareas.map(t => `
+          <div class="kcard" onclick="abrirModal('${esc(t.id)}')">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;gap:6px">
+              ${estBadge(t.estado)} ${prioBadge(t.prioridad)}
+            </div>
+            <div class="kcard-id">${esc(t.id)}</div>
+            <div class="kcard-title">${esc(t.tarea)}</div>
+            <div class="kcard-footer">
+              <span class="kcard-resp"><i class="fa-regular fa-user"></i> ${esc(t.responsable)}</span>
+              ${t.fecha ? `<span class="kcard-date"><i class="fa-regular fa-calendar"></i> ${esc(t.fecha)}</span>` : ""}
+            </div>
+            <div class="kcard-more"><i class="fa-solid fa-chevron-down"></i> ver notas y links</div>
+          </div>`).join("")}
+      </div>
+    </div>`).join("");
+
   document.getElementById("loading-1").style.display="none";
-  document.getElementById("proyecto-content").style.display="block";
+  document.getElementById("proyecto-wrap").style.display="block";
 }
 
+// ── RENDER SEGUIMIENTO ─────────────────────────────────────────
 function renderSeguimiento(tareas){
   renderSummary("summary-row-2", tareas);
-  const activas=tareas.filter(t=>t.estado==="En curso"||t.estado==="Bloqueada")
-    .sort((a,b)=>a.estado==="Bloqueada"?-1:1);
-  const vencen=tareas.filter(t=>t.estado!=="Completada"&&t.fecha)
-    .map(t=>({...t,dias:diasHasta(t.fecha)}))
-    .filter(t=>t.dias!==null&&t.dias>=0&&t.dias<=7)
-    .sort((a,b)=>a.dias-b.dias);
 
-  document.getElementById("seg-grid").innerHTML=`
+  const activas = tareas.filter(t => t.estado==="En curso" || t.estado==="Bloqueada")
+    .sort((a,b) => a.estado==="Bloqueada" ? -1 : 1);
+
+  const vencen = tareas
+    .filter(t => t.estado!=="Completada" && t.fecha)
+    .map(t => ({...t, dias: diasHasta(t.fecha)}))
+    .filter(t => t.dias!==null && t.dias>=0 && t.dias<=7)
+    .sort((a,b) => a.dias-b.dias);
+
+  const segRow = (t) => `
+    <div class="seg-row" onclick="abrirModal('${esc(t.id)}')">
+      <div class="seg-info">
+        <div class="seg-id">${esc(t.id)} · ${esc(t.proyecto)}</div>
+        <div class="seg-tarea">${esc(t.tarea)}</div>
+        <div class="seg-resp"><i class="fa-regular fa-user"></i> ${esc(t.responsable)}</div>
+      </div>
+      <div class="seg-right">
+        ${estBadge(t.estado)}
+        ${t.fecha ? `<div class="seg-fecha"><i class="fa-regular fa-calendar"></i> ${esc(t.fecha)}</div>` : ""}
+      </div>
+    </div>`;
+
+  const diasRow = (t) => `
+    <div class="seg-row" onclick="abrirModal('${esc(t.id)}')">
+      <div class="seg-info">
+        <div class="seg-id">${esc(t.id)} · ${esc(t.proyecto)}</div>
+        <div class="seg-tarea">${esc(t.tarea)}</div>
+        <div class="seg-resp"><i class="fa-regular fa-user"></i> ${esc(t.responsable)}</div>
+      </div>
+      <div class="seg-right">
+        <span class="${t.dias===0?"dias-hoy":"dias-pronto"}">${t.dias===0?"Hoy":"En "+t.dias+" d"}</span>
+        <div class="seg-fecha"><i class="fa-regular fa-calendar"></i> ${esc(t.fecha)}</div>
+      </div>
+    </div>`;
+
+  document.getElementById("seg-grid").innerHTML = `
     <div class="seg-card">
-      <h3>En curso y bloqueadas <span style="font-size:12px;color:#6b6b6b;font-weight:400">(${activas.length})</span></h3>
-      ${activas.length?activas.map(t=>`
-        <div class="seg-row" onclick="abrirModal(TAREAS.find(x=>x.id==='${esc(t.id)}'))" style="cursor:pointer">
-          <div class="seg-info">
-            <div class="seg-id">${esc(t.id)} · ${esc(t.proyecto)}</div>
-            <div class="seg-tarea">${esc(t.tarea)}</div>
-            <div class="seg-resp">${esc(t.responsable)}</div>
-          </div>
-          <div class="seg-right">
-            ${estBadge(t.estado)}
-            ${t.fecha?`<div class="seg-fecha">${esc(t.fecha)}</div>`:""}
-          </div>
-        </div>`).join(""):`<div class="no-data">Sin tareas activas</div>`}
+      <div class="seg-card-title"><i class="fa-solid fa-arrow-right" style="color:var(--sky)"></i> En curso y bloqueadas <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);font-weight:400">(${activas.length})</span></div>
+      ${activas.length ? activas.map(segRow).join("") : `<div class="no-data">Sin tareas activas</div>`}
     </div>
     <div class="seg-card">
-      <h3>Vencen esta semana <span style="font-size:12px;color:#6b6b6b;font-weight:400">(${vencen.length})</span></h3>
-      ${vencen.length?vencen.map(t=>`
-        <div class="seg-row" onclick="abrirModal(TAREAS.find(x=>x.id==='${esc(t.id)}'))" style="cursor:pointer">
-          <div class="seg-info">
-            <div class="seg-id">${esc(t.id)} · ${esc(t.proyecto)}</div>
-            <div class="seg-tarea">${esc(t.tarea)}</div>
-            <div class="seg-resp">${esc(t.responsable)}</div>
-          </div>
-          <div class="seg-right">
-            <span class="${t.dias===0?"seg-dias-hoy":"seg-dias-pronto"}">${t.dias===0?"Hoy":"En "+t.dias+" d"}</span>
-            <div class="seg-fecha">${esc(t.fecha)}</div>
-          </div>
-        </div>`).join(""):`<div class="no-data">Sin vencimientos esta semana</div>`}
+      <div class="seg-card-title"><i class="fa-solid fa-triangle-exclamation" style="color:var(--amber)"></i> Vencen esta semana <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);font-weight:400">(${vencen.length})</span></div>
+      ${vencen.length ? vencen.map(diasRow).join("") : `<div class="no-data">Sin vencimientos esta semana</div>`}
     </div>`;
+
   document.getElementById("loading-2").style.display="none";
-  document.getElementById("seg-content").style.display="block";
+  document.getElementById("seg-wrap").style.display="block";
 }
 
+// ── RENDER POR PERSONA ─────────────────────────────────────────
 function renderPorPersona(tareas){
   renderSummary("summary-row-3", tareas);
-  const porPersona={};
-  tareas.forEach(t=>{
-    if(t.estado==="Completada")return;
-    t.responsable.split(",").map(n=>n.trim()).filter(Boolean).forEach(n=>{
-      if(!porPersona[n])porPersona[n]=[];
+
+  const porPersona = {};
+  tareas.forEach(t => {
+    if(t.estado==="Completada") return;
+    t.responsable.split(",").map(n=>n.trim()).filter(Boolean).forEach(n => {
+      if(!porPersona[n]) porPersona[n] = [];
       porPersona[n].push(t);
     });
   });
-  const personas=Object.entries(porPersona).sort((a,b)=>b[1].length-a[1].length);
-  document.getElementById("persona-grid").innerHTML=personas.map(([nombre,ts])=>`
+
+  const personas = Object.entries(porPersona).sort((a,b) => b[1].length-a[1].length);
+  document.getElementById("persona-grid").innerHTML = personas.map(([nombre, ts]) => `
     <div class="persona-card">
-      <div class="persona-name">${esc(nombre)}</div>
-      <div class="persona-count">${ts.length} tarea${ts.length!==1?"s":""} activa${ts.length!==1?"s":""}</div>
-      ${ts.map(t=>`
-        <div class="persona-task" onclick="abrirModal(TAREAS.find(x=>x.id==='${esc(t.id)}'))">
+      <div class="persona-header">
+        <div class="persona-name"><i class="fa-regular fa-user"></i> ${esc(nombre)}</div>
+        <div class="persona-count">${ts.length} tarea${ts.length!==1?"s":""} activa${ts.length!==1?"s":""}</div>
+      </div>
+      ${ts.map(t => `
+        <div class="persona-task" onclick="abrirModal('${esc(t.id)}')">
           <div>
             <div class="pt-id">${esc(t.id)} · ${esc(t.proyecto)}</div>
             <div class="pt-title">${esc(t.tarea)}</div>
@@ -401,27 +518,28 @@ function renderPorPersona(tareas){
           <div style="flex-shrink:0">${estBadge(t.estado)}</div>
         </div>`).join("")}
     </div>`).join("");
+
   document.getElementById("loading-3").style.display="none";
-  document.getElementById("persona-content").style.display="block";
+  document.getElementById("persona-wrap").style.display="block";
 }
 
-// ── CARGA DE DATOS (JSONP) ─────────────────────────────────────
+// ── CARGA (JSONP) ──────────────────────────────────────────────
 function cargar(){
-  window.handleData=function(data){
-    TAREAS=data.tareas||[];
-    document.getElementById("ultima-act").textContent="Actualizado: "+(data.actualizadoTexto||"—");
+  window.handleData = function(data){
+    TAREAS = data.tareas || [];
+    document.getElementById("badge-fecha").textContent = "LIVE · " + (data.actualizadoTexto || "—");
     renderKanban(TAREAS);
     renderPorProyecto(TAREAS);
     renderSeguimiento(TAREAS);
     renderPorPersona(TAREAS);
   };
-  const s=document.createElement("script");
-  s.src=API_URL+"?callback=handleData&t="+Date.now();
-  s.onerror=function(){
-    const eb=document.getElementById("error-box");
-    eb.textContent="No se pudieron cargar los datos. Verificá que el Apps Script esté publicado como app web pública.";
-    eb.style.display="block";
-    document.querySelectorAll(".loading").forEach(l=>l.style.display="none");
+  const s = document.createElement("script");
+  s.src = API_URL + "?callback=handleData&t=" + Date.now();
+  s.onerror = function(){
+    const eb = document.getElementById("error-box");
+    eb.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> No se pudieron cargar los datos. Verificá que el Apps Script esté publicado como app web pública.';
+    eb.style.display = "block";
+    document.querySelectorAll(".loading").forEach(l => l.style.display="none");
   };
   document.head.appendChild(s);
 }
